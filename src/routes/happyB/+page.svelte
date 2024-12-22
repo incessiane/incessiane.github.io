@@ -1,9 +1,12 @@
 <script>
   let name = 'Criszel';
-  
-  // Function to create sparkles dynamically
-  function createSparkle() {
-    if (typeof window !== 'undefined') {
+
+  // Function to generate dynamic sparkles
+  /**
+	 * @param {{ clientX: number; clientY: number; }} e
+	 */
+  function createSparkle(e) {
+    if (typeof window !== 'undefined') { // Check if we're in the browser
       const sparkle = document.createElement('div');
       sparkle.classList.add('sparkle');
       document.body.appendChild(sparkle);
@@ -11,8 +14,8 @@
       const size = Math.random() * 10 + 10; // Random size
       sparkle.style.width = `${size}px`;
       sparkle.style.height = `${size}px`;
-      sparkle.style.left = `${Math.random() * window.innerWidth}px`;
-      sparkle.style.top = `${Math.random() * window.innerHeight}px`;
+      sparkle.style.left = `${e.clientX + Math.random() * 20 - 10}px`;  // Mouse position with slight offset
+      sparkle.style.top = `${e.clientY + Math.random() * 20 - 10}px`;   // Mouse position with slight offset
 
       sparkle.style.animationDuration = `${Math.random() * 2 + 2}s`;
 
@@ -22,7 +25,9 @@
     }
   }
 
-  setInterval(createSparkle, 300); // Add sparkles periodically
+  // Add sparkles on mouse move
+  document.addEventListener('mousemove', createSparkle);
+
 </script>
 
 <style>
@@ -32,6 +37,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .birthday-container {
@@ -55,11 +61,31 @@
     color: #FF4081;
   }
 
+  .hearts {
+    font-size: 2rem;
+    margin: 20px 0;
+    animation: pulse 1.5s infinite;
+    cursor: pointer;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  .hearts:hover {
+    color: #FF77A9;
+  }
+
   .balloons {
     font-size: 3rem;
     position: absolute;
     bottom: 0;
-    animation: floatUp 5s linear infinite;
+    animation: floatUp 5s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -76,13 +102,13 @@
     }
   }
 
-  /* Floating Balloons */
+  /* New Balloons */
   .balloon-left {
     font-size: 3rem;
     position: absolute;
     bottom: 0;
     left: 5%;
-    animation: floatLeft 6s linear infinite;
+    animation: floatLeft 6s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -100,7 +126,7 @@
     position: absolute;
     bottom: 0;
     right: 5%;
-    animation: floatRight 6s linear infinite;
+    animation: floatRight 6s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -118,7 +144,7 @@
     position: absolute;
     bottom: 0;
     left: 50%;
-    animation: floatDiagonal 7s linear infinite;
+    animation: floatDiagonal 7s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -137,7 +163,7 @@
     position: absolute;
     bottom: 10%;
     left: 30%;
-    animation: floatCenter 6s linear infinite;
+    animation: floatCenter 6s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -146,7 +172,7 @@
     position: absolute;
     bottom: 20%;
     left: 50%;
-    animation: floatCenter 6s linear infinite;
+    animation: floatCenter 6s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -155,7 +181,7 @@
     position: absolute;
     bottom: 30%;
     left: 70%;
-    animation: floatCenter 6s linear infinite;
+    animation: floatCenter 6s ease-in-out infinite;
     cursor: pointer;
   }
 
@@ -168,13 +194,20 @@
     }
   }
 
+  .new-message {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #7B1FA2;
+  }
+
   /* Sparkles */
   :global(.sparkle) {
     position: absolute;
     background: radial-gradient(circle, rgba(255, 223, 244, 0.8), transparent);
     border-radius: 50%;
-    animation: sparkleMove 4s linear infinite;
+    animation: sparkleMove 4s ease-in-out infinite;
     pointer-events: none;
+    z-index: 10;
   }
 
   @keyframes sparkleMove {
@@ -190,11 +223,16 @@
 </style>
 
 <main>
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="birthday-container">
     <!-- Birthday Message -->
     <div class="birthday-message">
       🎉 Happy Birthday, <span>{name}</span>! 🎂
     </div>
+
+    <!-- Hearts -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <div class="hearts" on:click={() => alert('Spread the love! 💖')}>💗💖💓💞</div>
 
     <!-- Balloons -->
     <div class="balloons">🎈🎈🎈</div>
@@ -213,5 +251,10 @@
         🎈
       </div>
     {/each}
+
+    <!-- New Message -->
+    <div class="new-message">
+      Wishing you endless laughter, love, and all your favorite things today and always! 💕
+    </div>
   </div>
 </main>
