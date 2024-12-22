@@ -1,9 +1,9 @@
 <script>
   let name = 'Criszel';
-
-  // Function to generate dynamic sparkles
+  
+  // Function to create sparkles dynamically
   function createSparkle() {
-    if (typeof window !== 'undefined') { // Check if we're in the browser
+    if (typeof window !== 'undefined') {
       const sparkle = document.createElement('div');
       sparkle.classList.add('sparkle');
       document.body.appendChild(sparkle);
@@ -55,26 +55,6 @@
     color: #FF4081;
   }
 
-  .hearts {
-    font-size: 2rem;
-    margin: 20px 0;
-    animation: pulse 1.5s infinite;
-    cursor: pointer;
-  }
-
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-  }
-
-  .hearts:hover {
-    color: #FF77A9;
-  }
-
   .balloons {
     font-size: 3rem;
     position: absolute;
@@ -96,7 +76,7 @@
     }
   }
 
-  /* New Balloons */
+  /* Floating Balloons */
   .balloon-left {
     font-size: 3rem;
     position: absolute;
@@ -188,14 +168,8 @@
     }
   }
 
-  .new-message {
-    margin-top: 20px;
-    font-size: 1.5rem;
-    color: #7B1FA2;
-  }
-
   /* Sparkles */
-  :global(sparkle) {
+  :global(.sparkle) {
     position: absolute;
     background: radial-gradient(circle, rgba(255, 223, 244, 0.8), transparent);
     border-radius: 50%;
@@ -216,16 +190,11 @@
 </style>
 
 <main>
-  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="birthday-container">
     <!-- Birthday Message -->
     <div class="birthday-message">
       🎉 Happy Birthday, <span>{name}</span>! 🎂
     </div>
-
-    <!-- Hearts -->
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <div class="hearts" on:click={() => alert('Spread the love! 💖')}>💗💖💓💞</div>
 
     <!-- Balloons -->
     <div class="balloons">🎈🎈🎈</div>
@@ -244,10 +213,5 @@
         🎈
       </div>
     {/each}
-
-    <!-- New Message -->
-    <div class="new-message">
-      Wishing you endless laughter, love, and all your favorite things today and always! 💕
-    </div>
   </div>
 </main>
