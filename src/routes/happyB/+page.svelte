@@ -3,7 +3,7 @@
 
   // Function to generate dynamic sparkles
   /**
-   * @param {MouseEvent} e - The mouse event
+   * @param {TouchEvent} e - The touch event
    */
   function createSparkle(e) {
     if (typeof window !== 'undefined') { // Check if we're in the browser
@@ -11,11 +11,12 @@
       sparkle.classList.add('sparkle');
       document.body.appendChild(sparkle);
 
+      const touch = e.touches[0]; // Get the first touch point
       const size = Math.random() * 10 + 10; // Random size
       sparkle.style.width = `${size}px`;
       sparkle.style.height = `${size}px`;
-      sparkle.style.left = `${e.clientX + Math.random() * 20 - 10}px`;  // Mouse position with slight offset
-      sparkle.style.top = `${e.clientY + Math.random() * 20 - 10}px`;   // Mouse position with slight offset
+      sparkle.style.left = `${touch.clientX + Math.random() * 20 - 10}px`;  // Touch position with slight offset
+      sparkle.style.top = `${touch.clientY + Math.random() * 20 - 10}px`;   // Touch position with slight offset
 
       sparkle.style.animationDuration = `${Math.random() * 2 + 2}s`;
 
@@ -25,9 +26,9 @@
     }
   }
 
-  // Add sparkles on mouse move (only runs in browser)
+  // Add sparkles on touch (only runs in browser)
   if (typeof window !== 'undefined') {
-    document.addEventListener('mousemove', createSparkle);
+    document.addEventListener('touchmove', createSparkle);
   }
 </script>
 
@@ -45,8 +46,8 @@
   .birthday-container {
     position: relative;
     text-align: center;
-    padding: 50px;
-    margin: 100px auto;
+    padding: 5% 2%; /* Responsive padding */
+    margin: 5% auto; /* Responsive margin */
     max-width: 800px;
     background: linear-gradient(145deg, #FFD6F6, #FFFAF1);
     border-radius: 25px;
@@ -220,6 +221,19 @@
     100% {
       transform: translateY(-100vh) scale(0.5);
       opacity: 0;
+    }
+  }
+
+  /* Adjust font sizes for smaller screens */
+  @media (max-width: 600px) {
+    .birthday-message {
+      font-size: 2rem;
+    }
+    .new-message {
+      font-size: 1.2rem;
+    }
+    .hearts, .balloons, .balloon-left, .balloon-right, .balloon-diagonal {
+      font-size: 2rem;
     }
   }
 </style>
