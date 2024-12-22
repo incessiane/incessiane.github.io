@@ -2,23 +2,19 @@
   let name = 'Criszel';
 
   // Function to generate dynamic sparkles
-  /**
-   * @param {TouchEvent} e - The touch event
-   */
-  function createSparkle(e) {
+  function createSparkle() {
     if (typeof window !== 'undefined') { // Check if we're in the browser
       const sparkle = document.createElement('div');
       sparkle.classList.add('sparkle');
       document.body.appendChild(sparkle);
 
-      const touch = e.touches[0]; // Get the first touch point
       const size = Math.random() * 10 + 10; // Random size
       sparkle.style.width = `${size}px`;
       sparkle.style.height = `${size}px`;
-      sparkle.style.left = `${touch.clientX + Math.random() * 20 - 10}px`;  // Touch position with slight offset
-      sparkle.style.top = `${touch.clientY + Math.random() * 20 - 10}px`;   // Touch position with slight offset
+      sparkle.style.left = `${Math.random() * window.innerWidth}px`;
+      sparkle.style.top = `${Math.random() * window.innerHeight}px`;
 
-      sparkle.style.animationDuration = `${Math.random() * 2 + 2}s`;
+      sparkle.style.animationDuration = `${Math.random() * 2 + 2}s`; // Random duration for sparkle effect
 
       sparkle.addEventListener('animationend', () => {
         sparkle.remove();
@@ -26,10 +22,7 @@
     }
   }
 
-  // Add sparkles on touch (only runs in browser)
-  if (typeof window !== 'undefined') {
-    document.addEventListener('touchmove', createSparkle);
-  }
+  setInterval(createSparkle, 300); // Add sparkles periodically
 </script>
 
 
@@ -40,22 +33,21 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    cursor: pointer;
   }
 
   .birthday-container {
     position: relative;
     text-align: center;
-    padding: 5% 2%; /* Responsive padding */
-    margin: 5% auto; /* Responsive margin */
-    max-width: 800px;
+    padding: 5vw;
+    margin: 10vh auto;
+    max-width: 90%;
     background: linear-gradient(145deg, #FFD6F6, #FFFAF1);
     border-radius: 25px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
 
   .birthday-message {
-    font-size: 2.5rem;
+    font-size: 5vw;
     color: #FF5DA2;
     font-weight: bold;
   }
@@ -65,8 +57,8 @@
   }
 
   .hearts {
-    font-size: 2rem;
-    margin: 20px 0;
+    font-size: 5vw;
+    margin: 2vh 0;
     animation: pulse 1.5s infinite;
     cursor: pointer;
   }
@@ -85,10 +77,10 @@
   }
 
   .balloons {
-    font-size: 3rem;
+    font-size: 8vw;
     position: absolute;
     bottom: 0;
-    animation: floatUp 5s ease-in-out infinite;
+    animation: floatUp 5s linear infinite;
     cursor: pointer;
   }
 
@@ -111,7 +103,7 @@
     position: absolute;
     bottom: 0;
     left: 5%;
-    animation: floatLeft 6s ease-in-out infinite;
+    animation: floatLeft 6s linear infinite;
     cursor: pointer;
   }
 
@@ -129,7 +121,7 @@
     position: absolute;
     bottom: 0;
     right: 5%;
-    animation: floatRight 6s ease-in-out infinite;
+    animation: floatRight 6s linear infinite;
     cursor: pointer;
   }
 
@@ -147,7 +139,7 @@
     position: absolute;
     bottom: 0;
     left: 50%;
-    animation: floatDiagonal 7s ease-in-out infinite;
+    animation: floatDiagonal 7s linear infinite;
     cursor: pointer;
   }
 
@@ -161,31 +153,28 @@
   }
 
   /* Centered Balloons */
-  .balloon-center-1 {
-    font-size: 3rem;
+  .balloon-center-1,
+  .balloon-center-2,
+  .balloon-center-3 {
+    font-size: 8vw;
     position: absolute;
+    animation: floatCenter 6s linear infinite;
+    cursor: pointer;
+  }
+
+  .balloon-center-1 {
     bottom: 10%;
     left: 30%;
-    animation: floatCenter 6s ease-in-out infinite;
-    cursor: pointer;
   }
 
   .balloon-center-2 {
-    font-size: 3rem;
-    position: absolute;
     bottom: 20%;
     left: 50%;
-    animation: floatCenter 6s ease-in-out infinite;
-    cursor: pointer;
   }
 
   .balloon-center-3 {
-    font-size: 3rem;
-    position: absolute;
     bottom: 30%;
     left: 70%;
-    animation: floatCenter 6s ease-in-out infinite;
-    cursor: pointer;
   }
 
   @keyframes floatCenter {
@@ -198,19 +187,18 @@
   }
 
   .new-message {
-    margin-top: 20px;
-    font-size: 1.5rem;
+    margin-top: 2vh;
+    font-size: 3vw;
     color: #7B1FA2;
   }
 
   /* Sparkles */
-  :global(.sparkle) {
+  :global(sparkle) {
     position: absolute;
     background: radial-gradient(circle, rgba(255, 223, 244, 0.8), transparent);
     border-radius: 50%;
-    animation: sparkleMove 4s ease-in-out infinite;
+    animation: sparkleMove 4s linear infinite;
     pointer-events: none;
-    z-index: 10;
   }
 
   @keyframes sparkleMove {
@@ -224,16 +212,25 @@
     }
   }
 
-  /* Adjust font sizes for smaller screens */
+  /* Media Queries for additional responsiveness */
   @media (max-width: 600px) {
     .birthday-message {
-      font-size: 2rem;
+      font-size: 6vw;
     }
+
+    .hearts {
+      font-size: 6vw;
+    }
+
+    .balloons,
+    .balloon-center-1,
+    .balloon-center-2,
+    .balloon-center-3 {
+      font-size: 10vw;
+    }
+
     .new-message {
-      font-size: 1.2rem;
-    }
-    .hearts, .balloons, .balloon-left, .balloon-right, .balloon-diagonal {
-      font-size: 2rem;
+      font-size: 4vw;
     }
   }
 </style>
@@ -251,7 +248,7 @@
     <div class="hearts" on:click={() => alert('Spread the love! 💖')}>💗💖💓💞</div>
 
     <!-- Balloons -->
-    <div class="balloons">🎈🎈🎈</div>
+    <div class="balloons">🎈</div>
     <div class="balloon-left">🎈</div>
     <div class="balloon-right">🎈</div>
     <div class="balloon-diagonal">🎈</div>
@@ -263,7 +260,7 @@
 
     <!-- Additional Random Balloons -->
     {#each Array(16) as _, i}
-      <div class="balloon-{i % 3 === 0 ? 'left' : i % 3 === 1 ? 'right' : 'diagonal'}">
+      <div class={`balloon-${i % 3 === 0 ? 'left' : i % 3 === 1 ? 'right' : 'diagonal'}`}>
         🎈
       </div>
     {/each}
