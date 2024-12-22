@@ -3,8 +3,8 @@
 
   // Function to generate dynamic sparkles
   /**
-	 * @param {{ clientX: number; clientY: number; }} e
-	 */
+   * @param {MouseEvent} e - The mouse event
+   */
   function createSparkle(e) {
     if (typeof window !== 'undefined') { // Check if we're in the browser
       const sparkle = document.createElement('div');
@@ -25,10 +25,12 @@
     }
   }
 
-  // Add sparkles on mouse move
-  document.addEventListener('mousemove', createSparkle);
-
+  // Add sparkles on mouse move (only runs in browser)
+  if (typeof window !== 'undefined') {
+    document.addEventListener('mousemove', createSparkle);
+  }
 </script>
+
 
 <style>
   :global(body) {
